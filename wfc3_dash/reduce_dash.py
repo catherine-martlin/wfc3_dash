@@ -434,15 +434,16 @@ class DashData(object):
         self : object
             DashData object created from an individual IMA file.
         rm_custom : bool
-            Specifies whether or not the user would like to remove custom flags within the boundaries of sources, as defined by the segmentation map created from the original FLT.
+            Specifies whether or not the user would like to remove custom flags within the boundaries 
+            of sources, as defined by the segmentation map created from the original FLT.
         flag : int
-            Specifies flag the user would like the remove within the boundaries of sources.
+            Specifies the flag the user would like to remove within the boundaries of sources.
 
 
         Output
         ------
         Fixed for cosmic rays diff files : fits
-            Same diff files created in split_ima that have now been corrected for cosmic ray errors.
+            Same diff files created in split_ima that have now been corrected for cosmic rays.
         '''
 
         asn_exposures = sorted(glob('diff/' + self.root + '_*_diff.fits'))
@@ -456,8 +457,12 @@ class DashData(object):
         EXPTIME = flt_full[0].header['EXPTIME']
 
         #Have lacosmicx locate cosmic rays
-        crmask, clean = lacosmicx.lacosmicx(flt_full[1].data, gain=1.0, readnoise=20., 
-                                    objlim = 15.0, 
+        crmask, clean = lacosmicx.lacosmicx(flt_full[1].data, gain=7.,
+                                    readn=5, .
+                                   sigclip=4.5, 
+                                   sigfrac=0.3, 
+                                   objlim=5, 
+                                   niter=4,  
                                     pssl = 0., 
                                     verbose=True)
 
